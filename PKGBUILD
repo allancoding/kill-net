@@ -1,20 +1,17 @@
 # Maintainer: Allan Niles <allancoding.dev@gmail.com>
-pkgname=flashplayer
+pkgname=kill-net
 pkgver=1.0
 pkgrel=1
-pkgdesc="This is a Flash Player that works past 2020!"
+pkgdesc="A script to overwhelm/flood the connected network with traffic using zmap basically it kills it."
 arch=('any')
-url="https://github.com/allancoding/flashplayer"
-license=('AGPL-3.0')
-depends=('electron')
-source=("git+https://github.com/yourusername/your-repo.git#tag=v${pkgver}")
+url="https://github.com/allancoding/kill-net"
+license=('Apache-2.0')
+depends=('zmap')
+source=("git+https://github.com/allancoding/kill-net.git#tag=v${pkgver}")
 md5sums=('SKIP')
-build() {
-    cd "$srcdir/flashplayer"
-    npm install
-}
 
 package() {
-    cd "$srcdir/your-repo"  # Adjust the directory name according to your repo
-    install -Dm755 my-electron-app "$pkgdir/usr/bin/my-electron-app"  # Install your app to the system
+    cd "$srcdir/kill-net"
+    mv kill-net.sh kill-net
+    install -Dm755 kill-net "$pkgdir/usr/bin/kill-net"
 }
