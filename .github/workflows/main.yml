@@ -1,0 +1,25 @@
+name: Push to the aur
+on:
+  push:
+    tags:
+      - v*
+
+jobs: 
+  aur:
+     name: Build AUR package
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v3
+       - name: Update Version
+         run: sed -i "s/pkgver=.*/pkgver=${{ needs.version.version.outputs.version }}/" PKGBUILD
+       - name: Push to the AUR
+         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+         with:
+           pkgname: kill-net
+           pkgbuild: ./PKGBUILD
+           commit_username: ${{ secrets.AUR_USERNAME }}
+           commit_email: ${{ secrets.AUR_EMAIL }}
+           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+           commit_message: Update AUR package
+           ssh_keyscan_types: rsa
