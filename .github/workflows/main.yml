@@ -24,7 +24,6 @@ jobs:
        - name: Pull changes from AUR
          run: |
           sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
-          cat PKGBUILD
           git clone aur@aur.archlinux.org:kill-net.git
           cp -u ./README.md kill-net/README.md
           cp -u ./LICENSE kill-net/LICENSE
@@ -32,7 +31,6 @@ jobs:
           cd kill-net
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
-          cat PKGBUILD
           sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
           cat PKGBUILD
        - name: Validate package
@@ -49,6 +47,7 @@ jobs:
            git add .
            git commit -m "update to ${{ steps.extract_version.outputs.version }}"
            git push
+           cd ../
        - uses: EndBug/add-and-commit@v9
          with:
            default_author: github_actions
