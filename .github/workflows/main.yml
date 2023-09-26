@@ -29,3 +29,4 @@ jobs:
            git_username: ${{ secrets.GIT_USERNAME }}
            git_email: ${{ secrets.GIT_EMAIL }}
            private_ssh_key: ${{ secrets.AUR_PRIVATE_SSH_KEY }}
+           ssh_keyscan_types: rsa
