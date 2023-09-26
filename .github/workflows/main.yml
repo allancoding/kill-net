@@ -23,6 +23,7 @@ jobs:
            namcap: false
            srcinfo: true
        - name: Setup ssh key
+         uses: shimataro/ssh-key-action@v2
          with:
           key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
           name: aur
