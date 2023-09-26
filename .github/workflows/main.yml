@@ -11,11 +11,17 @@ jobs:
      steps:
        - name: Checkout code
          uses: actions/checkout@v3
-       - name: Extract tag version without 'v'
+       - name: Extract tag version without v
          id: extract_version
          run: echo "::set-output name=version::$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//')"
        - name: Update PKGBUILD with extracted version
          run: sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
+       - name: Validate package
+         uses: hapakaien/archlinux-package-action@v2
+         with:
+           flags: ''
+           namcap: false
+           srcinfo: true
        - name: Push changes to AUR
          uses: datakrama/push-aur-action@v1
          with:
@@ -23,4 +29,3 @@ jobs:
            git_username: ${{ secrets.GIT_USERNAME }}
            git_email: ${{ secrets.GIT_EMAIL }}
            private_ssh_key: ${{ secrets.AUR_PRIVATE_SSH_KEY }}
-           ssh_keyscan_types: rsa
