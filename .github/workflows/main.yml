@@ -27,7 +27,7 @@ jobs:
          run: |
           ssh aur@aur.archlinux.org help
           git clone aur@aur.archlinux.org:kill-net.git
-          cp -u ./README kill-net/README
+          cp -u ./README.md kill-net/README
           cp -u ./LICENSE kill-net/LICENSE
           cp -u ./PKGBUILD kill-net/PKGBUILD
           cd kill-net
