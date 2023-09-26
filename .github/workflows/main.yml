@@ -11,9 +11,9 @@ jobs:
      steps:
        - name: Checkout code
          uses: actions/checkout@v3
-       - name: Extract tag version without v
+       - name: Extract tag version without 'v'
          id: extract_version
-         run: echo "::set-output name=version::${{ github.ref_name/refs/tags/v }}"
+         run: echo "::set-output name=version::$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//')"
        - name: Update PKGBUILD with extracted version
          run: sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
        - name: Push changes to AUR
