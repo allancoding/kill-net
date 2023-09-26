@@ -1,6 +1,8 @@
 name: Push to the aur
 on:
   push:
+    branches:
+      - main
     tags:
       - v*
 
