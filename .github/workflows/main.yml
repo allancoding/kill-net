@@ -11,8 +11,6 @@ jobs:
      steps:
        - name: Checkout code
          uses: actions/checkout@v3
-       - name: Update Version
-         run: sed -i "s/pkgver=.*/pkgver=${{ needs.version.version.outputs.version }}/" PKGBUILD
        - name: Push to the AUR
          uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
          with:
@@ -22,4 +20,4 @@ jobs:
            commit_email: ${{ secrets.AUR_EMAIL }}
            ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
            commit_message: Update AUR package
-           ssh_keyscan_types: rsa
+           ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
