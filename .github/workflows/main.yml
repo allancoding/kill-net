@@ -11,6 +11,8 @@ jobs:
      steps:
        - name: Checkout code
          uses: actions/checkout@v3
+       - name: Update Version
+         run: sed -i "s/pkgver=.*/pkgver=${{ needs.version.version.outputs.version }}/" PKGBUILD
        - name: Push to the AUR
          uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
          with:
