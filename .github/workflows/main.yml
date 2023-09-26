@@ -24,6 +24,7 @@ jobs:
        - name: Pull changes from AUR
          run: |
           sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
+          cat PKGBUILD
           git clone aur@aur.archlinux.org:kill-net.git
           cp -u ./README.md kill-net/README.md
           cp -u ./LICENSE kill-net/LICENSE
@@ -31,6 +32,8 @@ jobs:
           cd kill-net
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
+          cat PKGBUILD
+          sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
           cat PKGBUILD
        - name: Validate package
          uses: hapakaien/archlinux-package-action@v2
