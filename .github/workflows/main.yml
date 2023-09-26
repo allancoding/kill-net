@@ -40,6 +40,7 @@ jobs:
            srcinfo: true
        - name: Push to AUR
          run: |
+           cd kill-net
            cat PKGBUILD
            git add .
            git commit -m "update to ${{ steps.extract_version.outputs.version }}"
