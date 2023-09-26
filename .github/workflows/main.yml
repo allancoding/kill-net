@@ -32,3 +32,8 @@ jobs:
        - name: Push changes to AUR
          run: |
           ssh aur@aur.archlinux.org help
+          git clone aur@aur.archlinux.org:net-kill.git
+          ls
+          cd net-kill
+          ls
+          
