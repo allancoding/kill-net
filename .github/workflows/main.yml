@@ -13,13 +13,10 @@ jobs:
          uses: actions/checkout@v3
        - name: Update Version
          run: sed -i "s/pkgver=.*/pkgver=${{ needs.version.version.outputs.version }}/" PKGBUILD
-       - name: Push to the AUR
-         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+       - name: Push changes to AUR
+         uses: datakrama/push-aur-action@v1
          with:
-           pkgname: kill-net
-           pkgbuild: ./PKGBUILD
-           commit_username: ${{ secrets.AUR_USERNAME }}
-           commit_email: ${{ secrets.AUR_EMAIL }}
-           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-           commit_message: Update AUR package
-           ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+           pkgname: 'kill-net'
+           git_username: ${{ secrets.GIT_USERNAME }}
+           git_email: ${{ secrets.GIT_EMAIL }}
+           private_ssh_key: ${{ secrets.AUR_PRIVATE_SSH_KEY }}
