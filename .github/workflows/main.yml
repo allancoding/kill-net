@@ -22,16 +22,14 @@ jobs:
            flags: ''
            namcap: false
            srcinfo: true
-       - name: Setup ssh key
-         uses: shimataro/ssh-key-action@v2
-         with:
-          key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          name: aur
-          known_hosts: aur.archlinux.org
-          config: |
-            Host aur.archlinux.org
-              IdentityFile ~/.ssh/aur
-              User aur
+       - name: Setup SSH key
+         run: |
+           mkdir -p ~/.ssh
+           echo "${{ secrets.AUR_SSH_PRIVATE_KEY }}" > ~/.ssh/aur
+           chmod 600 ~/.ssh/aur
+           ssh-add ~/.ssh/aur
+           ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+           echo -e "Host aur.archlinux.org\n\tIdentityFile ~/.ssh/aur\n\tUser aur" > ~/.ssh/config            
        - name: Push changes to AUR
          run: |
           ssh aur@aur.archlinux.org help
