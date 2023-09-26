@@ -16,12 +16,6 @@ jobs:
          run: echo "::set-output name=version::$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//')"
        - name: Update PKGBUILD with extracted version
          run: sed -i "s/pkgver=.*/pkgver=${{ steps.extract_version.outputs.version }}/" PKGBUILD
-       - name: Validate package
-         uses: hapakaien/archlinux-package-action@v2
-         with:
-           flags: ''
-           namcap: false
-           srcinfo: true
        - name: Setup SSH key
          run: |
            mkdir -p ~/.ssh
@@ -29,11 +23,25 @@ jobs:
            chmod 600 ~/.ssh/aur
            ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
            echo -e "Host aur.archlinux.org\n\tIdentityFile ~/.ssh/aur\n\tUser aur" > ~/.ssh/config            
-       - name: Push changes to AUR
+       - name: Pull changes from AUR
          run: |
           ssh aur@aur.archlinux.org help
-          git clone aur@aur.archlinux.org:net-kill.git
+          git clone aur@aur.archlinux.org:kill-net.git
+          cp -u ./README kill-net/README
+          cp -u ./LICENSE kill-net/LICENSE
+          cp -u ./PKGBUILD kill-net/PKGBUILD
+          cd kill-net
           ls
-          cd net-kill
-          ls
+          git add .
+          git commit -m "update to ${{ steps.extract_version.outputs.version }}"
+       - name: Validate package
+         uses: hapakaien/archlinux-package-action@v2
+         with:
+           path: kill-net
+           flags: ''
+           namcap: false
+           srcinfo: true
+       - uses: EndBug/add-and-commit@v9
+         with:
+           default_author: github_actions
           
