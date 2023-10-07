@@ -82,7 +82,6 @@ run_with_sudo() {
     fi
     start
     int
-    #run
-    sudo echo "ran with sudo"
+    run
 }
 run_with_sudo "$@"
